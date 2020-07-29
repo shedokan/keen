@@ -116,9 +116,9 @@ void
 GameOver (void)
 {
 	VW_InitDoubleBuffer ();
-	US_CenterWindow (16,3);
+	US_CenterWindow (40,3);
 
-	US_PrintCentered("Game Over!");
+	US_PrintCentered("Game Over! No flag for you!");
 
 	VW_UpdateScreen ();
 	IN_ClearKeysDown ();
@@ -143,8 +143,8 @@ void StatusWindow (void)
 
 	// DEBUG - make this look better
 
-	US_CenterWindow(22,7);
-	US_CPrint("Status Window");
+	US_CenterWindow(40,7);
+	US_CPrint("Status Window - the flag isn't here (;");
 
 	WindowX += 8;
 	WindowW -= 8;
