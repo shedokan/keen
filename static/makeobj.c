@@ -36,7 +36,6 @@
 */
 
 #include <stdio.h>
-#include <malloc.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>

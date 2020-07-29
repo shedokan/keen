@@ -426,6 +426,7 @@ void InitGame (void)
 	{
 #pragma	warn	-pro
 #pragma	warn	-nod
+		textbackground(0);
 		clrscr();			// we can't include CONIO because of a name conflict
 #pragma	warn	+nod
 #pragma	warn	+pro
@@ -520,9 +521,6 @@ void main (void)
 		puts("You must type START at the DOS prompt to run KEEN DREAMS.");
 		exit(0);
 	}
-
-	textcolor(7);
-	textbackground(0);
 
 	InitGame();
 

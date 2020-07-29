@@ -383,7 +383,7 @@ US_Startup(void)
 
 	harderr(USL_HardError);	// Install the fatal error handler
 
-	US_InitRndT(true);		// Initialize the random number generator
+	US_InitRndT(false);		// Initialize the random number generator
 
 	USL_ReadConfig();		// Read config file
 
@@ -2173,7 +2173,6 @@ USL_CtlCKbdButtonCustom(UserCall call,word i,word n)
 static boolean
 USL_CtlCJoyButtonCustom(UserCall call,word i,word n)
 {
-	boolean Done = false;
 	word	joy,
 			minx,maxx,
 			miny,maxy;
@@ -2190,38 +2189,25 @@ USL_CtlCJoyButtonCustom(UserCall call,word i,word n)
 	FlushHelp = true;
 	fontcolor = F_SECONDCOLOR;
 
-	while (!(Done))
+	USL_ShowHelp("Move Joystick to the Upper-Left");
+	VW_UpdateScreen();
+	while ((LastScan != sc_Escape) && !IN_GetJoyButtonsDB(joy))
+		;
+	if (LastScan != sc_Escape)
 	{
-		USL_ShowHelp("Move Joystick to the Upper-Left");
-		VW_UpdateScreen();
-		while ((LastScan != sc_Escape) && !IN_GetJoyButtonsDB(joy));
+		IN_GetJoyAbs(joy,&minx,&miny);
+		while (IN_GetJoyButtonsDB(joy))
+			;
 
+		USL_ShowHelp("Move Joystick to the Lower-Right");
+		VW_UpdateScreen();
+		while ((LastScan != sc_Escape) && !IN_GetJoyButtonsDB(joy))
+			;
 		if (LastScan != sc_Escape)
 		{
-			IN_GetJoyAbs(joy,&minx,&miny);
-			while (IN_GetJoyButtonsDB(joy));
-
-			USL_ShowHelp("Move Joystick to the Lower-Right");
-			VW_UpdateScreen();
-			while ((LastScan != sc_Escape) && !IN_GetJoyButtonsDB(joy));
-
-			if (LastScan != sc_Escape)
-			{
-				IN_GetJoyAbs(0,&maxx,&maxy);
-
-				if ((maxx != minx) && (maxy != miny))
-				{
-					Done = true;
-					IN_SetupJoy(joy,minx,maxx,miny,maxy);
-				}
-				else
-					while (IN_GetJoyButtonsDB(joy));
-			}
-			else
-				Done = true;
+			IN_GetJoyAbs(0,&maxx,&maxy);
+			IN_SetupJoy(joy,minx,maxx,miny,maxy);
 		}
-		else
-			Done = true;
 	}
 
 	if (LastScan != sc_Escape)
