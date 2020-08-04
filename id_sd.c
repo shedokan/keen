@@ -85,7 +85,7 @@ static	word			sqMode,sqFadeStep;
 	SDMode		SoundMode;
 	SMMode		MusicMode;
 	longword	TimeCount;
-	word		*SoundTable;	// Really * _seg *SoundTable, but that don't work
+	word		*SoundTable;	// Really * far *SoundTable, but that don't work
 	boolean		ssIsTandy;
 	word		ssPort = 2;
 

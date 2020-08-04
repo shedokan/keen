@@ -97,8 +97,8 @@ extern	byte	far	audiohead;
 extern	byte	audiodict;
 
 
-long		_seg *grstarts;	// array of offsets in egagraph, -1 for sparse
-long		_seg *audiostarts;	// array of offsets in audio / audiot
+long		far *grstarts;	// array of offsets in egagraph, -1 for sparse
+long		far *audiostarts;	// array of offsets in audio / audiot
 
 #ifdef GRHEADERLINKED
 huffnode	*grhuffman;
@@ -658,11 +658,11 @@ void CAL_SetupGrFile (void)
 
 #if GRMODE == EGAGR
 	grhuffman = (huffnode *)&EGAdict;
-	grstarts = (long _seg *)FP_SEG(&EGAhead);
+	grstarts = (long far *)FP_SEG(&EGAhead);
 #endif
 #if GRMODE == CGAGR
 	grhuffman = (huffnode *)&CGAdict;
-	grstarts = (long _seg *)FP_SEG(&CGAhead);
+	grstarts = (long far *)FP_SEG(&CGAhead);
 #endif
 
 	CAL_OptimizeNodes (grhuffman);
@@ -771,7 +771,7 @@ void CAL_SetupMapFile (void)
 
 	maphuffman = (huffnode *)&mapdict;
 	CAL_OptimizeNodes (maphuffman);
-	tinf = (byte _seg *)FP_SEG(&maphead);
+	tinf = (byte far *)FP_SEG(&maphead);
 
 #endif
 
@@ -820,7 +820,7 @@ void CAL_SetupAudioFile (void)
 #else
 	audiohuffman = (huffnode *)&audiodict;
 	CAL_OptimizeNodes (audiohuffman);
-	audiostarts = (long _seg *)FP_SEG(&audiohead);
+	audiostarts = (long far *)FP_SEG(&audiohead);
 #endif
 
 //
@@ -1132,7 +1132,7 @@ void CAL_CacheSprite (int chunk, char far *compressed)
 	unsigned shiftstarts[5];
 	unsigned smallplane,bigplane,expanded;
 	spritetabletype far *spr;
-	spritetype _seg *dest;
+	spritetype far *dest;
 
 #if GRMODE == CGAGR
 //
@@ -1141,7 +1141,7 @@ void CAL_CacheSprite (int chunk, char far *compressed)
 	spr = &spritetable[chunk-STARTSPRITES];
 	smallplane = spr->width*spr->height;
 	MM_GetPtr (&grsegs[chunk],smallplane*2+MAXSHIFTS*6);
-	dest = (spritetype _seg *)grsegs[chunk];
+	dest = (spritetype far *)grsegs[chunk];
 	dest->sourceoffset[0] = MAXSHIFTS*6;	// start data after 3 unsigned tables
 	dest->planesize[0] = smallplane;
 	dest->width[0] = spr->width;
@@ -1171,7 +1171,7 @@ void CAL_CacheSprite (int chunk, char far *compressed)
 
 	expanded = shiftstarts[spr->shifts];
 	MM_GetPtr (&grsegs[chunk],expanded);
-	dest = (spritetype _seg *)grsegs[chunk];
+	dest = (spritetype far *)grsegs[chunk];
 
 //
 // expand the unshifted shape
@@ -1460,7 +1460,7 @@ void CA_CacheMap (int mapnum)
 //
 	if (!mapheaderseg[mapnum])
 	{
-		pos = ((mapfiletype	_seg *)tinf)->headeroffsets[mapnum];
+		pos = ((mapfiletype	far *)tinf)->headeroffsets[mapnum];
 		if (pos<0)						// $FFFFFFFF start is a sparse map
 		  Quit ("CA_CacheMap: Tried to load a non existant map!");
 
@@ -1474,7 +1474,7 @@ The general buffer size is too small!
 		//
 		// load in, then unhuffman to the destination
 		//
-		CA_FarRead (maphandle,bufferseg,((mapfiletype	_seg *)tinf)->headersize[mapnum]);
+		CA_FarRead (maphandle,bufferseg,((mapfiletype	far *)tinf)->headersize[mapnum]);
 		CAL_HuffExpand ((byte huge *)bufferseg,
 			(byte huge *)mapheaderseg[mapnum],sizeof(maptype),maphuffman);
 #else
@@ -1521,7 +1521,7 @@ The general buffer size is too small!
 		MM_GetPtr (&buffer2seg,expanded);
 		CAL_HuffExpand ((byte huge *)source, buffer2seg,expanded,maphuffman);
 		CA_RLEWexpand (((unsigned far *)buffer2seg)+1,*dest,size,
-		((mapfiletype _seg *)tinf)->RLEWtag);
+		((mapfiletype far *)tinf)->RLEWtag);
 		MM_FreePtr (&buffer2seg);
 
 #else
@@ -1529,7 +1529,7 @@ The general buffer size is too small!
 		// unRLEW, skipping expanded length
 		//
 		CA_RLEWexpand (source+1, *dest,size,
-		((mapfiletype _seg *)tinf)->RLEWtag);
+		((mapfiletype far *)tinf)->RLEWtag);
 #endif
 
 		if (compressed>BUFFERSIZE)
@@ -1779,7 +1779,7 @@ void CA_CacheMarks (char *title, boolean cachedownlevel)
 				&& bufferend>= endpos)
 				{
 				// data is allready in buffer
-					source = (byte _seg *)bufferseg+(pos-bufferstart);
+					source = (byte far *)bufferseg+(pos-bufferstart);
 				}
 				else
 				{

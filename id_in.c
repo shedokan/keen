@@ -907,7 +907,7 @@ IN_StartDemoRecord(word bufsize)
 //
 ///////////////////////////////////////////////////////////////////////////
 void
-IN_StartDemoPlayback(byte _seg *buffer,word bufsize)
+IN_StartDemoPlayback(byte far *buffer,word bufsize)
 {
 	DemoBuffer = buffer;
 	DemoMode = demo_Playback;

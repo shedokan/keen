@@ -194,9 +194,9 @@ extern	unsigned	ylookup[VIRTUALHEIGHT];
 
 extern	boolean		screenfaded;
 
-extern	pictabletype	_seg *pictable;
-extern	pictabletype	_seg *picmtable;
-extern	spritetabletype _seg *spritetable;
+extern	pictabletype	far *pictable;
+extern	pictabletype	far *picmtable;
+extern	spritetabletype far *spritetable;
 
 extern	int			px,py;
 extern	byte		pdrawmode,fontcolor;

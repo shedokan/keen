@@ -66,9 +66,9 @@ unsigned	ylookup[VIRTUALHEIGHT];
 
 boolean		screenfaded;
 
-pictabletype	_seg *pictable;
-pictabletype	_seg *picmtable;
-spritetabletype _seg *spritetable;
+pictabletype	far *pictable;
+pictabletype	far *picmtable;
+spritetabletype far *spritetable;
 
 /*
 =============================================================================
@@ -79,7 +79,7 @@ spritetabletype _seg *spritetable;
 */
 
 void	VWL_MeasureString (char far *string, word *width, word *height,
-		fontstruct _seg *font);
+		fontstruct far *font);
 void 	VWL_DrawCursor (void);
 void 	VWL_EraseCursor (void);
 void 	VWL_DBSetup (void);
@@ -474,7 +474,7 @@ void VW_DrawSprite(int x, int y, unsigned chunknum)
 	unsigned	dest,shift;
 
 	spr = &spritetable[chunknum-STARTSPRITES];
-	block = (spritetype _seg *)grsegs[chunknum];
+	block = (spritetype far *)grsegs[chunknum];
 
 	y+=spr->orgy>>G_P_SHIFT;
 	x+=spr->orgx>>G_P_SHIFT;
@@ -813,7 +813,7 @@ done:
 
 #if NUMFONT+NUMFONTM>0
 void
-VWL_MeasureString (char far *string, word *width, word *height, fontstruct _seg *font)
+VWL_MeasureString (char far *string, word *width, word *height, fontstruct far *font)
 {
 	*height = font->height;
 	for (*width = 0;*string;string++)
@@ -822,12 +822,12 @@ VWL_MeasureString (char far *string, word *width, word *height, fontstruct _seg 
 
 void	VW_MeasurePropString (char far *string, word *width, word *height)
 {
-	VWL_MeasureString(string,width,height,(fontstruct _seg *)grsegs[STARTFONT]);
+	VWL_MeasureString(string,width,height,(fontstruct far *)grsegs[STARTFONT]);
 }
 
 void	VW_MeasureMPropString  (char far *string, word *width, word *height)
 {
-	VWL_MeasureString(string,width,height,(fontstruct _seg *)grsegs[STARTFONTM]);
+	VWL_MeasureString(string,width,height,(fontstruct far *)grsegs[STARTFONTM]);
 }
 
 
@@ -1349,7 +1349,7 @@ void VWB_DrawSprite(int x, int y, int chunknum)
 	y+=pansy;
 
 	spr = &spritetable[chunknum-STARTSPRITES];
-	block = (spritetype _seg *)grsegs[chunknum];
+	block = (spritetype far *)grsegs[chunknum];
 
 	y+=spr->orgy>>G_P_SHIFT;
 	x+=spr->orgx>>G_P_SHIFT;

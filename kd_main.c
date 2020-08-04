@@ -146,7 +146,7 @@ void TestSprites(void)
 			sprite = STARTSPRITES;
 
 		spr = &spritetable[sprite-STARTSPRITES];
-		block = (spritetype _seg *)grsegs[sprite];
+		block = (spritetype far *)grsegs[sprite];
 
 		VWB_Bar (hx,hy,TEXTWIDTH,bottomy-hy,WHITE);
 

@@ -1285,7 +1285,7 @@ linknewspot:
 // write the new info to the sprite
 //
 	spr = &spritetable[spritenumber-STARTSPRITES];
-	block = (spritetype _seg *)grsegs[spritenumber];
+	block = (spritetype far *)grsegs[spritenumber];
 
 	globaly+=spr->orgy;
 	globalx+=spr->orgx;
@@ -1970,7 +1970,7 @@ linknewspot:
 // write the new info to the sprite
 //
 	spr = &spritetable[spritenumber-STARTSPRITES];
-	block = (spritetype _seg *)grsegs[spritenumber];
+	block = (spritetype far *)grsegs[spritenumber];
 
 	globaly+=spr->orgy;
 	globalx+=spr->orgx;

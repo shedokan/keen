@@ -40,7 +40,7 @@ void Quit (char *error);
 
 //==========================================================================
 
-typedef void _seg * memptr;
+typedef void far * memptr;
 
 typedef struct
 {
